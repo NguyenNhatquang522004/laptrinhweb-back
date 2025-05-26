@@ -1,6 +1,6 @@
 ﻿namespace backapi.Repository
 {
-    public interface IUserTestResult
+    public interface IUserChallengeRepository
     {
     }
 }

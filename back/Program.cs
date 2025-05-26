@@ -66,6 +66,10 @@ builder.Services.AddScoped<ICategoryRepository, CategoryService>();
 builder.Services.AddScoped<ILessonRepository, LessonService>();
 builder.Services.AddScoped<IVocabularyRepository, VocabularyService>();
 builder.Services.AddScoped<IVNPayRepository, VNPayService>();
+builder.Services.AddScoped<ITestQuestionRepository, TestQuestionService>();
+builder.Services.AddScoped<ITestRepository, TestService>();
+builder.Services.AddScoped<IGrammarRuleRepository, GrammarRuleService>();
+builder.Services.AddScoped<IUserTestResultRepository, UserTestResultService>();
 
 // THÊM DÒNG NÀY - Đăng ký RedisService
 builder.Services.AddScoped<IRedisRepository, RedisService>();
