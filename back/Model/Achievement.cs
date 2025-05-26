@@ -4,7 +4,7 @@ using static backapi.Enums.enums;
 
 namespace backapi.Model
 {
-    public class Achievement
+    public class Achievement : BaseEntity
     {
         [Key]
         public Guid AchievementId { get; set; } = Guid.NewGuid();

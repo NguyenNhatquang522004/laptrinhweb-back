@@ -19,7 +19,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(provider =>
 
 // Add services to the container.
 builder.Services.AddControllers();
-
+builder.Services.Configure<VNPayConfiguration>(builder.Configuration.GetSection("VNPay"));
 // Configure Google Auth
 builder.Services.Configure<GoogleAuthSettings>(builder.Configuration.GetSection("GoogleAuth"));
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
@@ -63,6 +63,9 @@ builder.Services.AddScoped<IEmailRepository, EmailService>();
 builder.Services.AddScoped<IUserRepository, userService>();
 builder.Services.AddScoped<IUserPreferenceRepository, userPreferenceService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryService>();
+builder.Services.AddScoped<ILessonRepository, LessonService>();
+builder.Services.AddScoped<IVocabularyRepository, VocabularyService>();
+builder.Services.AddScoped<IVNPayRepository, VNPayService>();
 
 // THÊM DÒNG NÀY - Đăng ký RedisService
 builder.Services.AddScoped<IRedisRepository, RedisService>();

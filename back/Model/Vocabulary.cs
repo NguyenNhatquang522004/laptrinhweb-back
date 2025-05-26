@@ -4,7 +4,7 @@ using static backapi.Enums.enums;
 
 namespace backapi.Model
 {
-    public class Vocabulary
+    public class Vocabulary : BaseEntity
     {
         [Key]
         public Guid WordId { get; set; } = Guid.NewGuid();

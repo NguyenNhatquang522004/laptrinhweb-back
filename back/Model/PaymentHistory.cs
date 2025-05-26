@@ -4,7 +4,7 @@ using static backapi.Enums.enums;
 
 namespace backapi.Model
 {
-    public class PaymentHistory
+    public class PaymentHistory : BaseEntity
     {
         [Key]
         public Guid PaymentId { get; set; } = Guid.NewGuid();
@@ -46,6 +46,10 @@ namespace backapi.Model
         public DateTime? ProcessedAt { get; set; }
 
         public string? FailureReason { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation Properties
         public User User { get; set; } = null!;

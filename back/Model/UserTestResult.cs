@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backapi.Model
 {
-    public class UserTestResult
+    public class UserTestResult : BaseEntity
     {
         [Key]
         public Guid ResultId { get; set; } = Guid.NewGuid();

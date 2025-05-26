@@ -2,7 +2,7 @@
 
 namespace backapi.Model
 {
-    public class Category
+    public class Category : BaseEntity
     {
         [Key]
         public Guid CategoryId { get; set; } = Guid.NewGuid();

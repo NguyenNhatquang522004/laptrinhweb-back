@@ -3,7 +3,7 @@ using static backapi.Enums.enums;
 
 namespace backapi.Model
 {
-    public class User
+    public class User : BaseEntity
     {
         [Key]
         public Guid UserId { get; set; } = Guid.NewGuid();

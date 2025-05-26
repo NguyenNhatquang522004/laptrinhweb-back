@@ -11,7 +11,7 @@ namespace backapi.Repository
         public Task<globalResponds> CreateAsync(Vocabulary vocabulary);
         public Task<globalResponds> UpdateAsync(Guid id, Vocabulary vocabulary);
 
-        public Task<globalResponds> DeleteAsync(Guid id);
+        public Task<globalResponds> DeleteAsync(Vocabulary vocabulary);
         public Task<globalResponds> GetByCategoryAsync(Guid categoryId);
         public Task<globalResponds> GetByLevelAsync(CefrLevel level);
 
