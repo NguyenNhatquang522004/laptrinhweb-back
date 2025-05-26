@@ -39,6 +39,12 @@ namespace backapi.Model
 
         // Navigation Properties
         public User User { get; set; } = null!;
+
+
+        public UserPreference()
+        {
+            // Default constructor
+        }
     }
 
 }

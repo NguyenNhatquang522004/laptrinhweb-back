@@ -16,17 +16,15 @@ namespace backapi.Controllers
         private readonly ApplicationDbContext applicationDbContext;
         private readonly passwordHepler passwordHepler;
         private readonly IEmailRepository _emailService;
-        public RegisterController(IUserRepository userRepository, ApplicationDbContext applicationDbContext, passwordHepler passwordHepler, IEmailRepository emailService)
+        private readonly IUserPreferenceRepository _userPreferenceRepository;
+        public RegisterController(IUserRepository userRepository, ApplicationDbContext applicationDbContext, passwordHepler passwordHepler, IEmailRepository emailService, IUserPreferenceRepository userPreferenceRepository)
         {
             _userRepository = userRepository;
             this.applicationDbContext = applicationDbContext;
             this.passwordHepler = passwordHepler;
             _emailService = emailService;
+            _userPreferenceRepository = userPreferenceRepository;
         }
-
-
-
-
 
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] User user)
@@ -168,18 +166,16 @@ namespace backapi.Controllers
 
 
         }
-
-
         [HttpPost]
         [Route("stepfour")]
-        public async Task<globalResponds> RegisterStepFour([FromBody] RegisterDTO request)
+        public async Task<IActionResult> RegisterStepFour([FromBody] RegisterDTO request)
         {
             try
             {
                 globalResponds searchUser = await _userRepository.GetUserByEmailAsync(request.Email);
                 if (searchUser.Code == "0" || searchUser.Data == null)
                 {
-                    return new globalResponds("400", "Email not found.", null);
+                    return BadRequest(new globalResponds("400", "Email not found.", null));
                 }
                 User user = (User)searchUser.Data;
                 user.NativeLanguage = request.NativeLanguage; // Set the native language
@@ -189,21 +185,31 @@ namespace backapi.Controllers
                 user.Bio = request.Bio; // Set the bio
                 user.IsPremium = request.IsPremium; // Set the premium status
                 user.CurrentLevel = request.CurrentLevel; // Set the current level
+
+                globalResponds CreateUserPreference = await _userPreferenceRepository.CreateUserPreferenceAsync(new UserPreference
+                {
+                    UserId = user.UserId,
+                    User = user,
+                });
+                if (CreateUserPreference.Code != "1")
+                {
+                    return BadRequest(new globalResponds("500", "Failed to create user preferences.", null));
+                }
                 globalResponds updateUser = await _userRepository.UpdateUserAsync(user); // Update the user in the repository
                 if (updateUser.Code != "1")
                 {
-                    return new globalResponds("500", "Failed to update user.", null);
+                    return BadRequest(new globalResponds("500", "Failed to update user.", null));
                 }
                 globalResponds sendmail = await _emailService.SendWelcomeEmailAsync(user.Email, user.Username);
                 if (sendmail.Code != "1")
                 {
-                    return new globalResponds("500", "Failed to send welcome email.", null);
+                    return BadRequest(new globalResponds("500", "Failed to send welcome email.", null));
                 }
-                return new globalResponds("200", "Register step four successfull.", user.Email);
+                return Ok(new globalResponds("200", "Register step four successfull.", user.Email));
             }
             catch (Exception ex)
             {
-                return new globalResponds("500", "An error occurred while registering the user.", null);
+                return BadRequest(new globalResponds("500", "An error occurred while registering the user.", null));
             }
         }
     }

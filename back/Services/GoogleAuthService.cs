@@ -56,6 +56,7 @@ namespace backapi.Services
                         providerId = payload.Subject,
                         IsActive = true,
                         EmailVerified = payload.EmailVerified,
+                        PasswordHash = null,
                         CreatedAt = DateTime.UtcNow
                     };
 
@@ -68,6 +69,7 @@ namespace backapi.Services
                     existingUser.FirstName = payload.GivenName;
                     existingUser.LastName = payload.FamilyName;
                     existingUser.ProfileImageUrl = payload.Picture;
+                    existingUser.EmailVerified = payload.EmailVerified;
 
 
                     if (string.IsNullOrEmpty(existingUser.providerId))
@@ -97,18 +99,17 @@ namespace backapi.Services
                         Provider = user.prvider
                     }
                 };
-
-                return new globalResponds("", "", null);
+                return new globalResponds("200", "Google authentication successful.", authResponse);
             }
             catch (InvalidJwtException)
             {
-                return new globalResponds("", "", null);
+                return new globalResponds("401", "Invalid Google ID token.", null);
             }
             catch (Exception ex)
             {
-                return new globalResponds("", "", null);
-
-
+                // Log lỗi chi tiết để debug
+                Console.WriteLine($"Google Auth Error: {ex.Message}");
+                return new globalResponds("500", "Google authentication failed.", null);
             }
         }
     }

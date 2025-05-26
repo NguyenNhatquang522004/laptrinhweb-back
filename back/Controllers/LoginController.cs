@@ -1,4 +1,5 @@
-﻿using backapi.Configuration;
+﻿using backapi.auth;
+using backapi.Configuration;
 using backapi.Helpers;
 using backapi.Model;
 using backapi.Repository;
@@ -14,6 +15,7 @@ namespace backapi.Controllers
         private readonly ApplicationDbContext applicationDbContext;
         private readonly passwordHepler passwordHepler;
         private readonly IJwtRepository jwtRepository;
+        private readonly IGoogleAuthRepository _googleAuthService;
         public LoginController(IUserRepository userRepository, ApplicationDbContext applicationDbContext, passwordHepler passwordHepler, IJwtRepository jwtRepository)
         {
             _userRepository = userRepository;
@@ -49,6 +51,33 @@ namespace backapi.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new globalResponds("500", "An error occurred while logging in.", null));
+            }
+        }
+
+        [HttpPost]
+        [Route("google")]
+        public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginRequest request)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(request.IdToken))
+                {
+                    return BadRequest(new globalResponds("400", "Google ID token is required.", null));
+                }
+
+                // Sử dụng GoogleAuthService để xác thực
+                var result = await _googleAuthService.AuthenticateGoogleUserAsync(request.IdToken);
+
+                if (result.Data == null)
+                {
+                    return Unauthorized(new globalResponds("401", "Invalid Google token or authentication failed.", null));
+                }
+
+                return Ok(new globalResponds("200", "Google login successful.", result.Data));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new globalResponds("500", "An error occurred during Google authentication.", null));
             }
         }
 

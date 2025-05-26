@@ -8,7 +8,7 @@ namespace backapi.Services
 {
     public class userService : IUserRepository
     {
-        private readonly IUserRepository _userRepository;
+
         private readonly ApplicationDbContext applicationDbContext;
         private readonly IEmailRepository _emailService;
 

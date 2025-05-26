@@ -62,6 +62,7 @@ namespace backapi.Services
                 };
 
                 var principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
+                Console.WriteLine($"Token validated successfully: {validatedToken.ValidTo}");
                 return principal;
             }
             catch
