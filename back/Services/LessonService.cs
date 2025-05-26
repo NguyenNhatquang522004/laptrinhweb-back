@@ -49,7 +49,7 @@ namespace backapi.Services
             }
         }
 
-        public async Task<globalResponds> CreateLessonAsync(Lesson lesson)
+        public async Task<globalResponds> CreateLessonAsync(Lesson lesson, Category category)
         {
             try
             {
@@ -57,6 +57,13 @@ namespace backapi.Services
                 {
                     return new globalResponds("0", "Lesson cannot be null", null);
                 }
+                if (category == null)
+                {
+                    return new globalResponds("0", "Category cannot be null", null);
+                }
+                lesson.Category = category;
+                lesson.CategoryId = category.CategoryId;
+                category.Lessons.Add(lesson);
                 _context.Lessons.Add(lesson);
                 await _context.SaveChangesAsync();
                 return new globalResponds("1", "Lesson created successfully", lesson);
@@ -76,6 +83,7 @@ namespace backapi.Services
                     return new globalResponds("0", "Lesson cannot be null", null);
                 }
                 _context.Entry(lesson).CurrentValues.SetValues(lesson);
+                _context.Lessons.Update(lesson);
                 await _context.SaveChangesAsync();
                 return new globalResponds("1", "Lesson updated successfully", lesson);
             }
@@ -119,22 +127,7 @@ namespace backapi.Services
             }
         }
 
-        //public async Task<globalResponds> GetLessonsByUserAsync(Guid userId)
-        //{
-        //    try
-        //    {
-        //        var lessons = await _context.Lessons.Where(l => l.UserProgresses.use == userId).ToListAsync();
-        //        if (lessons == null || !lessons.Any())
-        //        {
-        //            return new globalResponds("0", "No lessons found for this user", null);
-        //        }
-        //        return new globalResponds("1", "Lessons retrieved successfully", lessons);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return new globalResponds("0", "Error retrieving lessons by user: " + e.Message, null);
-        //    }
-        //}
+
 
         public async Task<globalResponds> GetLessonsByLevelAsync(string level)
         {
@@ -187,31 +180,7 @@ namespace backapi.Services
                 return new globalResponds("0", "Error linking lesson and exercise: " + e.Message, null);
             }
         }
-        //public async Task<globalResponds> CreateLessonAndUserProgress(Lesson lessonId, Guid userId)
-        //{
-        //    try
-        //    {
-        //        var lesson = await _context.Lessons.FindAsync(lessonId);
-        //        if (lesson == null)
-        //        {
-        //            return new globalResponds("0", "Lesson not found", null);
-        //        }
-        //        UserProgress userProgress = new UserProgress
-        //        {
-        //            LessonId = lessonId,
-        //            UserId = userId,
-        //            Progress = 0 // Initialize progress to 0 or any default value
-        //        };
-        //        _context.UserProgresses.Add(userProgress);
-        //        await _context.SaveChangesAsync();
-        //        return new globalResponds("1", "Lesson and user progress linked successfully", userProgress);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return new globalResponds("0", "Error linking lesson and user progress: " + e.Message, null);
-        //    }
 
-        //}
 
         public async Task<globalResponds> DeleteLessonAndCategory(Lesson lesson)
         {

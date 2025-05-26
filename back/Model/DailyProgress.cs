@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backapi.Model
 {
-    public class DailyProgress
+    public class DailyProgress : BaseEntity
     {
         [Key]
         public Guid DailyId { get; set; } = Guid.NewGuid();

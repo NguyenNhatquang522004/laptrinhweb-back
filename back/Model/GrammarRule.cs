@@ -4,7 +4,7 @@ using static backapi.Enums.enums;
 
 namespace backapi.Model
 {
-    public class GrammarRule
+    public class GrammarRule : BaseEntity
     {
         [Key]
         public Guid RuleId { get; set; } = Guid.NewGuid();
@@ -21,7 +21,7 @@ namespace backapi.Model
         public CefrLevel? Level { get; set; }
 
         [StringLength(100)]
-        public string? Category { get; set; } // tenses, conditionals, etc.
+        public Guid? CategoryId { get; set; } // tenses, conditionals, etc.
 
         [Column(TypeName = "json")]
         public string? Examples { get; set; }
@@ -34,5 +34,8 @@ namespace backapi.Model
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+
+        // Navigation Properties
+        public Category? Category { get; set; } // Navigation to Category entity
     }
 }

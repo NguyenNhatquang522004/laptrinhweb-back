@@ -14,6 +14,7 @@ namespace backapi.Services
         {
             _context = context;
         }
+
         public async Task<globalResponds> GetAllAsync()
         {
             try
@@ -42,10 +43,13 @@ namespace backapi.Services
             }
         }
 
-        public async Task<globalResponds> CreateAsync(Vocabulary vocabulary)
+        public async Task<globalResponds> CreateAsync(Vocabulary vocabulary, Category category)
         {
             try
             {
+                vocabulary.CategoryId = category.CategoryId;
+                vocabulary.Category = category;
+                category.Vocabularies.Add(vocabulary);
                 _context.Vocabularies.Add(vocabulary);
                 await _context.SaveChangesAsync();
                 return new globalResponds("1", "thành công", null);
@@ -62,6 +66,7 @@ namespace backapi.Services
             {
                 Vocabulary search = await _context.Vocabularies.FindAsync(id);
                 _context.Vocabularies.Entry(search).CurrentValues.SetValues(vocabulary);
+                _context.Vocabularies.Update(search);
                 await _context.SaveChangesAsync();
                 return new globalResponds("1", "thành công", null);
             }

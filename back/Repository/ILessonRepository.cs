@@ -7,7 +7,7 @@ namespace backapi.Repository
     {
         public Task<globalResponds?> GetLessonByIdAsync(Guid lessonId);
         public Task<globalResponds> GetAllLessonsAsync();
-        public Task<globalResponds> CreateLessonAsync(Lesson lesson);
+        public Task<globalResponds> CreateLessonAsync(Lesson lesson, Category category);
         public Task<globalResponds> UpdateLessonAsync(Lesson lesson);
         public Task<globalResponds> DeleteLessonAsync(Guid lessonId);
         public Task<globalResponds> GetLessonsByCategoryAsync(Guid categoryId);

@@ -8,7 +8,7 @@ namespace backapi.Repository
     {
         public Task<globalResponds> GetAllAsync();
         public Task<globalResponds> GetByIdAsync(Guid id);
-        public Task<globalResponds> CreateAsync(Vocabulary vocabulary);
+        public Task<globalResponds> CreateAsync(Vocabulary vocabulary, Category category);
         public Task<globalResponds> UpdateAsync(Guid id, Vocabulary vocabulary);
 
         public Task<globalResponds> DeleteAsync(Vocabulary vocabulary);

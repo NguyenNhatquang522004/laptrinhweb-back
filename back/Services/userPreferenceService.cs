@@ -59,6 +59,7 @@ namespace backapi.Services
                     return new globalResponds("404", "Sở thích người dùng không tồn tại.", null);
                 }
                 applicationDbContext.Entry(update).CurrentValues.SetValues(request);
+                applicationDbContext.UserPreferences.Update(update);
                 await applicationDbContext.SaveChangesAsync();
                 return new globalResponds("1", "thành công.", null);
             }

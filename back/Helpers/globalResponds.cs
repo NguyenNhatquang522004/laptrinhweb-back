@@ -14,6 +14,5 @@
             this.Data = data;
         }
 
-
     }
 }

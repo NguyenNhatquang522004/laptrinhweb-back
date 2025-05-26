@@ -27,5 +27,6 @@ namespace backapi.Model
         // Navigation Properties
         public ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
         public ICollection<Vocabulary> Vocabularies { get; set; } = new List<Vocabulary>();
+        public ICollection<GrammarRule> GrammarRules { get; set; } = new List<GrammarRule>();
     }
 }
