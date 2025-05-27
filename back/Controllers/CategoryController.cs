@@ -17,6 +17,10 @@ namespace backapi.Controllers
             _categoryService = categoryService;
             _logger = logger;
         }
+
+        /// <summary>
+        /// Xóa category theo ID
+        /// </summary>
         [HttpDelete("{categoryId}")]
         public async Task<IActionResult> DeleteCategoryAsync(Guid categoryId)
         {
@@ -35,6 +39,10 @@ namespace backapi.Controllers
                 return StatusCode(500, new globalResponds("500", "Internal server error", null));
             }
         }
+
+        /// <summary>
+        /// Tạo category mới
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> CreateCategoryAsync([FromBody] Category category)
         {
@@ -58,7 +66,9 @@ namespace backapi.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Lấy category theo ID
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryByIdAsync(Guid id)
         {
@@ -77,6 +87,10 @@ namespace backapi.Controllers
                 return StatusCode(500, new globalResponds("500", "Internal server error", null));
             }
         }
+
+        /// <summary>
+        /// Lấy tất cả categories
+        /// </summary>
         [HttpGet]
         [Route("all")]
         public async Task<IActionResult> GetAllCategoriesAsync()
@@ -96,6 +110,12 @@ namespace backapi.Controllers
                 return StatusCode(500, new globalResponds("500", "Internal server error", null));
             }
         }
+
+        /// <summary>
+        /// Lấy tất cả categories đang hoạt động
+        /// </summary>
+        [HttpGet] // ✅ THÊM DÒNG NÀY - đây là lỗi chính
+        [Route("active")] // ✅ THÊM ROUTE ĐỂ PHÂN BIỆT VỚI GetAllCategoriesAsync
         public async Task<IActionResult> GetActiveCategoriesAsync()
         {
             try
@@ -112,10 +132,12 @@ namespace backapi.Controllers
                 _logger.LogError(ex, "Error retrieving active categories");
                 return StatusCode(500, new globalResponds("500", "Internal server error", null));
             }
-
         }
 
-        [HttpPost]
+        /// <summary>
+        /// Cập nhật category
+        /// </summary>
+        [HttpPut] // ✅ THAY ĐỔI TỪ [HttpPost] THÀNH [HttpPut] CHO ĐÚNG RESTful
         [Route("update")]
         public async Task<IActionResult> UpdateCategoryAsync([FromBody] Category category)
         {
@@ -138,6 +160,5 @@ namespace backapi.Controllers
                 return StatusCode(500, new globalResponds("500", "Internal server error", null));
             }
         }
-
     }
 }

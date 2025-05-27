@@ -79,6 +79,9 @@ namespace backapi.Model
         public ICollection<UserAchievement> UserAchievements { get; set; } = new List<UserAchievement>();
         public ICollection<Subscription> Subscriptions { get; set; } = new List<Subscription>();
 
+        public ICollection<UserChallenge> UserChallenges { get; set; } = new List<UserChallenge>();
+
+
         public ICollection<PaymentHistory> PaymentHistories { get; set; } = new List<PaymentHistory>();
 
     }

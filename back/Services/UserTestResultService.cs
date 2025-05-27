@@ -46,6 +46,8 @@ namespace backapi.Services
         {
             try
             {
+                userTestResult.User.UserTestResults.Remove(userTestResult);
+                userTestResult.Test.UserTestResults.Remove(userTestResult);
                 _context.UserTestResults.Remove(userTestResult);
                 await _context.SaveChangesAsync();
                 return new globalResponds("1", "thành công ", null);
